@@ -6,6 +6,8 @@ from .models import StudyFile
 from .forms import StudyFileForm
 
 
+
+
 def home(request):
     return render(request, "home.html")
 
@@ -62,6 +64,7 @@ def summaries(request):
 
 
 @login_required
+@login_required
 def generate_summary(request, file_id):
     study_file = get_object_or_404(StudyFile, id=file_id, user=request.user)
 
@@ -71,18 +74,15 @@ def generate_summary(request, file_id):
         ai_enabled = os.environ.get("ENABLE_AI_SUMMARY", "True") == "True"
 
         if not ai_enabled:
-            study_file.summary = (
-                "AI summary is disabled on the online demo because the free server "
-                "does not have enough memory for the AI model."
-            )
+            study_file.summary = "AI summary is disabled on this online demo."
             study_file.summary_created_at = timezone.now()
             study_file.save()
             return redirect("summaries")
 
-        from .ai_summary import generate_pdf_summary
+        from .ai_summary_api import generate_pdf_summary_with_api
 
         pdf_path = study_file.pdf.path
-        summary = generate_pdf_summary(pdf_path)
+        summary = generate_pdf_summary_with_api(pdf_path)
 
         study_file.summary = summary
         study_file.summary_created_at = timezone.now()
