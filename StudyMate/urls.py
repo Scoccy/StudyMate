@@ -10,14 +10,11 @@ urlpatterns = [
 
     path("", views.home, name="home"),
     path("dashboard/", views.dashboard, name="dashboard"),
+    path("dashboard/delete/<int:file_id>/", views.delete_file, name="delete_file"),
+    path("dashboard/summary/<int:file_id>/", views.generate_summary, name="generate_summary"),
+    path("dashboard/summaries/", views.summaries, name="summaries"),
 
     path("accounts/", include("accounts.urls")),
-
-    path("dashboard/delete/<int:file_id>/", views.delete_file, name="delete_file"),
-
-    path("dashboard/summary/<int:file_id>/", views.generate_summary, name="generate_summary"),
-
-    path("dashboard/summaries/", views.summaries, name="summaries"),
 ]
 
 if settings.DEBUG:
