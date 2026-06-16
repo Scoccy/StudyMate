@@ -4,7 +4,7 @@ from django.utils import timezone
 
 from .models import StudyFile
 from .forms import StudyFileForm
-from .ai_summary import generate_pdf_summary
+
 
 
 def home(request):
@@ -154,8 +154,19 @@ def generate_summary(request, file_id):
     study_file = get_object_or_404(StudyFile, id=file_id, user=request.user)
 
     if request.method == "POST":
-        pdf_path = study_file.pdf.path
+        import os
 
+        ai_enabled = os.environ.get("ENABLE_AI_SUMMARY", "True") == "True"
+
+        if not ai_enabled:
+            study_file.summary = "AI summary is disabled on the online demo because the free server does not have enough memory for the AI model."
+            study_file.summary_created_at = timezone.now()
+            study_file.save()
+            return redirect("summaries")
+
+        from .ai_summary import generate_pdf_summary
+
+        pdf_path = study_file.pdf.path
         summary = generate_pdf_summary(pdf_path)
 
         study_file.summary = summary
@@ -163,14 +174,3 @@ def generate_summary(request, file_id):
         study_file.save()
 
     return redirect("summaries")
-
-@login_required
-def summaries(request):
-    files = StudyFile.objects.filter(
-        user=request.user,
-        summary__isnull=False
-    ).exclude(summary="").order_by("-summary_created_at")
-
-    return render(request, "summaries.html", {
-        "files": files
-    })
