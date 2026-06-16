@@ -1,0 +1,261 @@
+<!doctype html>
+{% load static %}
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyMate — Home</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="logo">
+          <img src="{% static 'imgs/logo.png' %}" alt="Logo StudyMate">
+        </div>
+        <div>StudyMate</div>
+      </a>
+
+      <button class="mobile-menu-btn" type="button" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="nav nav-links" id="mobileMenu">
+        <a href="#how-it-works">How it works</a>
+        <a href="#features">Features</a>
+        <a href="#students">For students</a>
+        <a href="#schools">For schools</a>
+        <a href="#faq">FAQ</a>
+
+        <div class="mobile-auth-buttons">
+          {% if user.is_authenticated %}
+            <a class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+          {% else %}
+            <a class="btn btn-ghost" href="{% url 'login' %}">Login</a>
+            <a class="btn btn-primary" href="{% url 'register' %}">Get started</a>
+          {% endif %}
+        </div>
+      </nav>
+
+      <div class="btn-row desktop-auth-buttons">
+        {% if user.is_authenticated %}
+          <a class="btn btn-primary" href="{% url 'dashboard' %}">Dashboard</a>
+        {% else %}
+          <a class="btn btn-ghost" href="{% url 'login' %}">Login</a>
+          <a class="btn btn-primary" href="{% url 'register' %}">Get started</a>
+        {% endif %}
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-wrap">
+        <div class="card hero-card">
+          <div class="kicker">Mind maps • Summaries • Study plans</div>
+
+          <h1 class="h1">Study smarter with StudyMate.</h1>
+
+          <p class="p">
+            StudyMate helps students study better by creating mind maps,
+            summaries, study plans and revision reminders in one simple platform.
+          </p>
+
+          <div class="btn-row">
+            {% if user.is_authenticated %}
+              <a class="btn btn-primary" href="{% url 'dashboard' %}">Go to dashboard</a>
+            {% else %}
+              <a class="btn btn-primary" href="{% url 'register' %}">Create account</a>
+              <a class="btn btn-outline" href="{% url 'login' %}">Login</a>
+            {% endif %}
+          </div>
+
+          <hr class="sep" />
+
+          <div class="grid cols-3">
+            <div class="card pad">
+              <div class="badge success">Organised</div>
+              <p class="p">Keep notes, summaries and revision plans in one place.</p>
+            </div>
+
+            <div class="card pad">
+              <div class="badge success">Fast</div>
+              <p class="p">Save time when creating mind maps and study material.</p>
+            </div>
+
+            <div class="card pad">
+              <div class="badge success">Helpful</div>
+              <p class="p">Receive reminders and guidance before tests and exams.</p>
+            </div>
+          </div>
+        </div>
+
+        <aside class="mock card">
+            <img src="{% static 'imgs/logo.png' %}" alt="StudyMate Logo" class="hero-logo">
+
+            <p class="p"><strong>Your digital study assistant.</strong></p>
+
+            <div class="store-buttons">
+                <a href="#" class="store-btn">
+                <span class="store-small">Download on the</span>
+                <span class="store-big">App Store</span>
+                </a>
+
+                <a href="#" class="store-btn">
+                <span class="store-small">Get it on</span>
+                <span class="store-big">Google Play</span>
+                </a>
+            </div>
+
+            <div class="progress"><div style="width:72%"></div></div>
+            
+            </aside>
+      </div>
+    </section>
+
+    <section id="come-funziona" class="section">
+      <div class="container hero-card">
+        <h2 class="h2">How it works</h2>
+
+        <div class="grid cols-3">
+          <div class="card pad">
+            <h3>1) Add your topic</h3>
+            <p class="p">Write a school topic, notes or revision goal.</p>
+          </div>
+
+          <div class="card pad">
+            <h3>2) Create study tools</h3>
+            <p class="p">Create summaries, mind maps and study plans.</p>
+          </div>
+
+          <div class="card pad">
+            <h3>3) Revise better</h3>
+            <p class="p">Use reminders and saved content to prepare for tests.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="section compact">
+      <div class="container hero-card">
+        <h2 class="h2">Main features</h2>
+
+        <div class="grid cols-4">
+          <div class="card pad">
+            <div class="badge success">Mind maps</div>
+            <p class="p">Create clear and organised mind maps.</p>
+          </div>
+
+          <div class="card pad">
+            <div class="badge success">Summaries</div>
+            <p class="p">Save useful summaries for revision.</p>
+          </div>
+
+          <div class="card pad">
+            <div class="badge success">Study plans</div>
+            <p class="p">Plan your study time before tests.</p>
+          </div>
+
+          <div class="card pad">
+            <div class="badge success">Reminders</div>
+            <p class="p">Never forget important revision dates.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="students" class="section compact">
+      <div class="container">
+        <div class="card pad">
+          <h2 class="h2">For students</h2>
+          <p class="p">
+            Students can use StudyMate to stay organised, reduce stress and study more effectively.
+          </p>
+          <a class="btn btn-primary" href="{% url 'register' %}">Start now</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="pricing" class="section">
+        <div class="container hero-card">
+            <h2 class="h2">Pricing</h2>
+
+            <p class="p">
+            StudyMate offers different pricing options for private students and schools.
+            Private students can pay for a premium subscription, while schools can choose
+            between paying per student or booking a study skills lesson.
+            </p>
+
+            <div class="grid cols-3">
+            <div class="card pad">
+                <div class="badge success">Private Student</div>
+                <div class="price">€4.99</div>
+                <p class="p">
+                per month for premium features such as unlimited mind maps,
+                summaries, study plans and revision reminders.
+                </p>
+            </div>
+
+            <div class="card pad">
+                <div class="badge success">School Package</div>
+                <div class="price">€3.49</div>
+                <p class="p">
+                per student per month. Schools pay based on the number of students
+                using StudyMate.
+                </p>
+            </div>
+
+            <div class="card pad">
+                <div class="badge success">School Lesson</div>
+                <div class="price">€80</div>
+                <p class="p">
+                per study skills lesson or workshop. This helps students learn how to
+                study better and use StudyMate effectively.
+                </p>
+            </div>
+            </div>
+        </div>
+        </section>
+
+    <section id="faq" class="section compact">
+      <div class="container hero-card">
+        <h2 class="h2">FAQ</h2>
+
+        <div class="grid cols-2">
+          <div class="card pad">
+            <h3>Is StudyMate free?</h3>
+            <p class="p">Yes, students can start with a free plan and upgrade later.</p>
+          </div>
+
+          <div class="card pad">
+            <h3>Who is it for?</h3>
+            <p class="p">StudyMate is mainly for students and schools.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div><strong>StudyMate</strong> — © 2026</div>
+      <div class="footer-links">
+        <a href="#">Privacy</a>
+        <a href="#">Terms</a>
+        <a href="#">Support</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
+
+<script>
+  function toggleMobileMenu() {
+    const menu = document.getElementById("mobileMenu");
+    menu.classList.toggle("show");
+  }
+</script>

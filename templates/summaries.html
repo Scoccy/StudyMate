@@ -1,0 +1,103 @@
+<!doctype html>
+{% load static %}
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyMate — Summaries</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body class="dashboard-body">
+
+  <div class="dashboard-layout">
+
+    <aside class="sidebar">
+      <a class="brand dashboard-brand" href="{% url 'home' %}">
+        <div class="logo">
+          <img src="{% static 'imgs/logo.png' %}" alt="Logo StudyMate">
+        </div>
+        <div>StudyMate</div>
+      </a>
+
+      <div class="user-box">
+        <div class="avatar">
+          {{ request.user.username|slice:":2"|upper }}
+        </div>
+        <div>
+          <strong>{{ request.user.username }}</strong>
+          <span>Student</span>
+        </div>
+      </div>
+
+      <nav class="dash-nav">
+        <a href="{% url 'dashboard' %}">Library</a>
+        <a href="#">Collections</a>
+        <a href="#">Flashcards</a>
+        <a class="active" href="{% url 'summaries' %}">Summaries</a>
+        <a href="#">Mind Maps</a>
+      </nav>
+
+      <form method="post" action="{% url 'logout' %}" class="logout-form">
+        {% csrf_token %}
+        <button type="submit" class="logout-link">Logout</button>
+      </form>
+    </aside>
+
+    <main class="dashboard-main">
+
+      <header class="dashboard-topbar">
+        <div>
+          <h1>Summaries</h1>
+          <p>AI-generated summaries from your PDF files</p>
+        </div>
+
+        <a class="add-source-btn" href="{% url 'dashboard' %}">
+          <span>+</span>
+          Add PDF
+        </a>
+      </header>
+
+      <section class="summaries-section">
+        {% if files %}
+          <div class="summary-list">
+            {% for file in files %}
+              <div class="summary-card">
+                <div class="summary-card-header">
+                  <div>
+                    <h2>{{ file.title }}</h2>
+                    <p>
+                      Generated
+                      {% if file.summary_created_at %}
+                        {{ file.summary_created_at|date:"d/m/Y H:i" }}
+                      {% else %}
+                        recently
+                      {% endif %}
+                    </p>
+                  </div>
+
+                  <a class="open-pdf-btn" href="{{ file.pdf.url }}" target="_blank">
+                    Open PDF
+                  </a>
+                </div>
+
+                <div class="summary-content">
+                  <p>{{ file.summary }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty-state">
+            <h2>No summaries yet</h2>
+            <p>Go to your Library, upload a PDF, and click “Generate summary”.</p>
+          </div>
+        {% endif %}
+      </section>
+
+    </main>
+
+  </div>
+
+</body>
+</html>

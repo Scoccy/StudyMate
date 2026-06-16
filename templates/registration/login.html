@@ -1,0 +1,47 @@
+<!doctype html>
+{% load static %}
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>StudyMate — Login</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+</head>
+
+<body class="auth">
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="{% url 'home' %}">
+        <div class="logo">
+          <img src="{% static 'imgs/logo.png' %}" alt="Logo StudyMate">
+        </div>
+        <div>StudyMate</div>
+      </a>
+
+      <div class="btn-row">
+        <a class="btn btn-ghost" href="{% url 'home' %}">Home</a>
+        <a class="btn btn-primary" href="{% url 'register' %}">Register</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="container">
+      <div class="card pad auth-card">
+        <h1 class="h2">Login</h1>
+        <p class="p">Enter your credentials to access your StudyMate account.</p>
+
+        <form method="post" class="form">
+          {% csrf_token %}
+          {{ form.as_p }}
+
+          <div class="btn-row">
+            <button class="btn btn-primary" type="submit">Login</button>
+            <a class="btn btn-ghost" href="{% url 'register' %}">Create account</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
